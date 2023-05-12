@@ -141,11 +141,7 @@ def to_format(options, view, output_format):
     if output_format == "numpy":
         for k, v in data.items():
             # TODO push into C++
-            if k == "__ROW_PATH__":
-                data[k] = np.array(v, dtype="object")
-            else:
-                data[k] = np.array(v)
-
+            data[k] = np.array(v, dtype="object") if k == "__ROW_PATH__" else np.array(v)
     return data
 
 
@@ -190,11 +186,10 @@ def _to_format_helper(view, options=None):
         )
 
     raw_names = data_slice.get_column_names()
-    column_names = []
-
-    for n in raw_names:
-        column_names.append(COLUMN_SEPARATOR_STRING.join([path.to_string(False) for path in n]))
-
+    column_names = [
+        COLUMN_SEPARATOR_STRING.join([path.to_string(False) for path in n])
+        for n in raw_names
+    ]
     return opts, column_names, data_slice
 
 

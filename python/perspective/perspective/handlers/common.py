@@ -91,9 +91,7 @@ class PerspectiveHandlerBase(ABC):
 
                 while start < len(message):
                     end = start + self._chunk_size
-                    if end >= len(message):
-                        end = len(message)
-
+                    end = min(end, len(message))
                     asyncio.ensure_future(self.write_message(message[start:end], binary=True))
                     start = end
 

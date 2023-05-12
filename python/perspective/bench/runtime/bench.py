@@ -39,8 +39,10 @@ class VirtualEnvHandler(object):
 
     def activate_virtualenv(self):
         """Activates the virtualenv at `VIRTUALENV_PATH`."""
-        logging.info("Activating virtualenv at: `{}`".format(self._virtualenv_path))
-        subprocess.check_output("source {}/bin/activate".format(self._virtualenv_path), shell=True)
+        logging.info(f"Activating virtualenv at: `{self._virtualenv_path}`")
+        subprocess.check_output(
+            f"source {self._virtualenv_path}/bin/activate", shell=True
+        )
         self._is_activated = True
 
     def create_virtualenv(self):
@@ -49,7 +51,7 @@ class VirtualEnvHandler(object):
         if self.virtualenv_exists():
             logging.ERROR("Virtualenv already exists at: `{0}`".format(self._virtualenv_path))
             return
-        logging.info("Creating virtualenv at: `{}`".format(self._virtualenv_path))
+        logging.info(f"Creating virtualenv at: `{self._virtualenv_path}`")
         venv.create(self._virtualenv_path, clear=True, with_pip=True)
 
     def deactivate_virtualenv(self):
@@ -207,8 +209,8 @@ class Runner(object):
     def write_results(self):
         if self._table is None:
             return
-        name = "benchmark_{}_.arrow".format(datetime.now().isoformat())
-        logging.info("Writing results to `{}`".format(name))
+        name = f"benchmark_{datetime.now().isoformat()}_.arrow"
+        logging.info(f"Writing results to `{name}`")
         arrow_path = os.path.join(os.path.dirname(__file__), name)
         with open(arrow_path, "wb") as file:
             arrow = self._table.view().to_arrow()
