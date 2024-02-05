@@ -31,7 +31,7 @@ docutils==0.20.1
 entrypoints==0.4
 executing==1.2.0
 Faker==19.2.0
-fastapi==0.100.1
+fastapi==0.109.1
 fastjsonschema==2.18.0
 flake8==6.1.0
 flake8-black==0.3.6
